@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MobileBankingDeploy" basedir="." default="deploy-all" >
+	<import file="build.xml" />
+	<property file="deploy.properties"/>
+	
+	<target name="deploy" depends="undeploy">
+		<copy file="${war.dir}/mobilebanking.war" todir="${tomcat.home}/webapps" />
+	</target>
+	<target name="undeploy" >
+			<delete file="${tomcat.home}/webapps/mobilebanking.war" />
+		</target>
+	<target name="stop" >
+				<exec executable="${tomcat.home}/bin/shutdown.${os.type}" />
+			</target>
+	<target name="start" >
+		<exec executable="${tomcat.home}/bin/startup.${os.type}" />
+			</target>
+	
+	<target name="deploy-all" depends="stop,undeploy,deploy,start" />
+	
+</project>

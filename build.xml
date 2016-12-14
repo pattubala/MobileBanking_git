@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MobileBanking" basedir="." default="all">
+
+	<property environment="env" />
+	<property name="source.dir" value="src" />
+	<property name="web.dir" value="WebContent"/>
+	<property name="war.dir" value="wars" />
+	
+	<path id="project_classpath">
+		<pathelement path="${web.dir}/WEB-INF/lib/servlet-api-2.5.jar"/>
+		<pathelement path="${env.CLASSPATH}"/>
+	</path>
+	
+	<tstamp>
+	    <format property="today" pattern="yyyyMMddhhmm" locale="en,GB"/>
+	  </tstamp>
+	
+	<target name="clean" >
+		<delete dir="${web.dir}/WEB-INF/classes" />
+		<sleep seconds="5"/>
+	</target>
+	
+	<target name="prepare" >
+			<mkdir dir="${web.dir}/WEB-INF/classes" />
+			<mkdir dir="${war.dir}" />
+		</target>
+	
+	<target name="compile" >
+		<javac srcdir="${source.dir}" destdir="${web.dir}/WEB-INF/classes" classpathref="project_classpath" />
+		<copy todir="${web.dir}/WEB-INF/classes" >
+			<fileset dir="${source.dir}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	
+	</target>
+		
+	<target name="package" >
+		<war destfile="${war.dir}/mobilebanking_${today}.war" basedir="${web.dir}"/>
+		</target>
+	
+	<target name="all" depends="clean,prepare,compile,package,deploy-war" />
+	
+	<target name="package-all" >
+		<antcall target="clean"/>
+		<antcall target="prepare"/>
+		<antcall target="compile"/>
+		<antcall target="package"/>
+	</target>
+	
+	<target name="deploy-war" >
+		<ant antfile="deploy.xml" />
+	</target>
+	
+	<target name="zip" >
+		<zip basedir="${war.dir}" destfile="${war.dir}.zip" />
+		<tar basedir="${war.dir}" destfile="${war.dir}.tar" />
+	</target>
+	<target name="ftp">
+		 <ftp server="stm01.unix"
+		       remotedir="/home/export"
+		       userid="xyz"
+		       password="xyz"
+		       depends="yes">
+		    <fileset dir="${basedir}">
+		    	<include name="${war.dir}.tar" />
+		    	<include name="${war.dir}.zip" />
+		    </fileset>
+		  </ftp>
+		
+		 <ftp action="get"
+		       server="stm01.unix"
+		       userid="xyz"
+		       password="xyz"
+		       systemTypeKey="UNIX"
+		       defaultDateFormatConfig="yyyy-MM-dd HH:mm">
+		    <fileset dir="htdocs/manual">
+		      <include name="**/*.html"/>
+		    </fileset>
+		  </ftp>
+
+	</target>
+	<target name="scp" >
+		<scp todir="user:password@somehost:/home/wars/">
+		    <fileset dir="${war.dir}">
+		    	<include name="*.war" />
+		    	</fileset>
+		  </scp>
+
+	</target>
+	
+	<target name="unzip" >
+		<untar src="wars.tar" dest="${basedir}"></untar>
+	</target>
+	<target name="test" >
+		<touch file="build.properties" />
+	</target>
+	
+	<target name="check" >
+		<condition property="check-existance">
+			<available file="${war.dir}" type="dir" />
+		</condition>
+		<antcall target="file-exist" />
+		<antcall target="file-not-exist" />
+	</target>
+	<target name="file-exist" if="check-existance">
+		<echo>${war.dir} is available</echo>
+	</target>
+	<target name="file-not-exist" unless="check-existance">
+			<echo>${war.dir} is not available</echo>
+		<mkdir dir="${war.dir}"/>
+		</target>
+	
+</project>
