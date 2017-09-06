@@ -39,7 +39,7 @@
 		<war destfile="${war.dir}/mobilebanking_${today}.war" basedir="${web.dir}"/>
 		</target>
 	
-	<target name="all" depends="clean,prepare,compile,package,deploy-war" />
+	<target name="all" depends="clean,prepare,compile,package" />
 	
 	<target name="package-all" >
 		<antcall target="clean"/>
