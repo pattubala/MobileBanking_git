@@ -2,9 +2,7 @@
 <project name="MobileBanking" basedir="." default="all">
 
 	<property environment="env" />
-	<property name="source.dir" value="src" />
-	<property name="web.dir" value="WebContent"/>
-	<property name="war.dir" value="wars" />
+	<property file="build.properties" />
 	
 	<path id="project_classpath">
 		<pathelement path="${web.dir}/WEB-INF/lib/servlet-api-2.5.jar"/>
