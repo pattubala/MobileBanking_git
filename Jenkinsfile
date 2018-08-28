@@ -8,7 +8,7 @@ pipeline {
     }
     stage("build"){
       steps {
-        sh 'ant all'
+        bat 'ant all'
       }
     }
   }
