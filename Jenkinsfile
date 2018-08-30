@@ -13,7 +13,7 @@ pipeline {
     }
     stage('SonarQube analysis') {
 			environment {
-			  SONAR_SCANNER_OPTS = "-Xmx2g"
+			 // SONAR_SCANNER_OPTS = "-Xmx2g"
 				scannerHome = tool "SonarQube_3.2"
       } 
       steps {
