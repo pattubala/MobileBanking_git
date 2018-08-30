@@ -18,7 +18,7 @@ pipeline {
       } 
       steps {
 	withSonarQubeEnv('SonarQube_6.7.5') {
-        bat 'cd'
+        // bat 'cd'
         bat '%scannerHome%/bin/sonar-scanner.bat -Dsonar.projectKey=MobileBanking_git -Dsonar.projectName=MobileBanking_git -Dsonar.projectVersion=1.0 -Dsonar.sources=src/ -Dsonar.sourceEncoding=UTF-8 -Dsonar.language=java -Dsonar.java.binaries=WebContent/WEB-INF/classes'
       }
       }
