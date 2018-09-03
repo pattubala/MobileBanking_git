@@ -25,7 +25,7 @@ pipeline {
     }
 	  stage('Nexus') {
 		  steps {
-		  	nexusPublisher nexusInstanceId: 'Nexus_3.12', nexusRepositoryId: 'MobileWeb_Ant', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'C:/Program Files (x86)/Jenkins/workspace/Pipeline-Sample/wars/mobilebanking_*.war']], mavenCoordinate: [artifactId: 'MobileBanking_git', groupId: 'com.ibm.services', packaging: 'war', version: '1.0']]]
+		  	nexusPublisher nexusInstanceId: 'Nexus_3.12', nexusRepositoryId: 'MobileWeb_Ant', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'C:/Program Files (x86)/Jenkins/workspace/Pipeline-Sample/wars/mobilebanking.war']], mavenCoordinate: [artifactId: 'MobileBanking_git', groupId: 'com.ibm.services', packaging: 'war', version: '1.0']]]
 
 		  }
 	  
